@@ -5,6 +5,8 @@ target/
 
 ### IntelliJ IDEA ###
 .idea/**
+.idea/dbnavigator.xml
+.idea/encodings.xml
 *.iws
 *.iml
 *.ipr
