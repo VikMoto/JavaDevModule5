@@ -10,8 +10,9 @@ public class HttpImageStatusCli {
         System.out.println("inputExpression = " + inputExpression);
         Scanner scanner = new Scanner(System.in);
         HttpStatusChecker statusChecker = new HttpStatusChecker();
-        final HttpStatusImageDownloader imageDownloader = new HttpStatusImageDownloader();
+        HttpStatusImageDownloader imageDownloader = new HttpStatusImageDownloader();
         String nextLine = scanner.nextLine();
+
         while (!nextLine.equals("exit")){
             if (Integer.parseInt(nextLine) < 100 || Integer.parseInt(nextLine) > 600 ) {
                 System.out.println("Please enter valid number: ");
