@@ -2,6 +2,10 @@ package module7HW;
 
 import java.io.IOException;
 import java.net.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 /**
  * Напиши класс HttpStatusChecker. Цей клас має мати один метод: *
  * String getStatusImage(int code). Він приймає код статусу, і повертає посилання
@@ -13,8 +17,9 @@ import java.net.*;
  * Протестуй свою програму, викликаючи її з різними аргументами.
  * */
 public class HttpStatusChecker {
+    private String urlMain = "https://http.cat";
     public String getStatusImage(int code) throws URISyntaxException, IOException {
-        String urlMain = "https://http.cat";
+
         String result = "";
         URL url = new URL(urlMain + "/" + code + ".jpg");
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -27,11 +32,20 @@ public class HttpStatusChecker {
         if (responseCode == 200) {
             result = url.getPath();
         }else {
+            System.out.println("There is not image for HTTP status " + code);
             throw new RuntimeException("Failed to get status image: HTTP error code " + responseCode);
         }
-
-
-
         return urlMain + result;
+    }
+    public int statusCodeByUrl(String url) throws IOException, InterruptedException {
+        HttpClient httpClient = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .build();
+        HttpRequest request = HttpRequest.newBuilder(URI.create(url))
+                .GET()
+                .build();
+        HttpResponse<String> httpResponse = httpClient
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        return httpResponse.statusCode();
     }
 }
